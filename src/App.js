@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import api from "./services/api";
 
-function App() {
+export default function App() {
+  const [dados, setDados] = useState();
+
+  useEffect(() => {
+    api
+      .get("https://digimon-api.vercel.app/api/digimon")
+      .then((response) => setDados(response))
+      .catch((err) => {
+        console.error("ops! ocorreu um erro" + err);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>API Consumer React</h1>
+      <p>Nome: {dados?.img}</p>
+      <p>Gênero: {dados?.name}</p>
+      <p>Sinopse: {dados?.level}</p>
     </div>
   );
 }
-
-export default App;
